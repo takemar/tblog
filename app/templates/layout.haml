@@ -1,0 +1,21 @@
+!!!
+%html{lang: 'ja'}
+  %head
+    %meta{charset: 'UTF-8'}/
+    %meta{'http-equiv':'X-UA-Compatible', content:'IE=edge'}/
+    %meta{name: 'viewport', content:'width=device-width, initial-scale=1'}/
+    - stylesheets.each do |stylesheet|
+      %link{rel: 'stylesheet', href: stylesheet}/
+    - scripts.each do |script|
+      %script{script}
+    %title #{ meta_title }
+  %body
+    %header
+      %h1
+        %a{href: url('')} #{ config.blog_heading_title }
+      %nav
+        %a{href: url('')} TOP
+        %a{href: url('about')} About
+        %a{href: 'http://www.takemaro.com/', target: '_blank'} takemaro.com
+        %a{href: 'https://twitter.com/Takemaro_001', target: '_blank'} Twitter
+    != yield.strip

@@ -1,0 +1,32 @@
+!!!
+%html{lang: 'ja'}
+  %head
+    %meta{charset: 'UTF-8'}/
+    %meta{'http-equiv':'X-UA-Compatible', content:'IE=edge'}/
+    %meta{name: 'viewport', content:'width=device-width, initial-scale=1'}/
+    %link{rel: 'stylesheet', href: 'https://necolas.github.io/normalize.css/latest/normalize.css'}/
+    %link{rel: 'stylesheet', href: url('css/common.css')}/
+    %script{async: true, src: 'https://platform.twitter.com/widgets.js', charset: 'utf-8'}
+    %title #{ meta_title }
+  %body
+    %header.twitter-share
+      %h1
+        %a{href: url('')} #{ config.blog_heading_title }
+      %nav
+        %a{href: url('')} TOP
+        %a{href: url('about')} About
+        %a{href: 'http://www.takemaro.com/', target: '_blank'} takemaro.com
+        %a{href: 'https://twitter.com/Takemaro_001', target: '_blank'} Twitter
+      .twitter-share-button-wrapper
+        %a.twitter-share-button{href: 'https://twitter.com/share',
+          target: '_blank',
+          data: {text: share_title, url: "#{ config.blog_scheme }://#{ config.blog_domain }/", 'show-count': 'false'}} ツイート
+    .hlinks
+      %div
+        %a{href: url('posts/')} アーカイブ
+      %div
+        %a{href: url('tags/')} タグ
+        ：
+        - tags.each do |tag|
+          %a{href: url(tag.path)} #{ tag.name }
+    != yield(posts).strip

@@ -1,0 +1,13 @@
+.content
+  %h2 タグの一覧
+  - tags.each do |tag|
+    .links
+      %div
+        %a{href: url(tag.path)} #{ tag.name }
+      .tag-links
+        - archived_years = tag_years[tag.slug]
+        - (Post.oldest.created_at.year .. Post.latest.created_at.year).each do |year|
+          - if archived_years.include? year
+            %a{href: url("tags/#{ tag.slug }/#{ year }")} #{ year }年
+          - else
+            #{ year }年

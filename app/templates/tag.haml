@@ -1,0 +1,11 @@
+%h2
+  %strong タグ：#{ name }
+  の最近の投稿
+.hlinks
+  アーカイブ：
+  - (Post.oldest.created_at.year .. Post.latest.created_at.year).each do |year|
+    - if years.include? year
+      %a{href: url("tags/#{ this.slug }/#{ year }")} #{ year }年
+    - else
+      #{ year }年
+!= yield(recent_posts).strip

@@ -1,0 +1,47 @@
+%form{method:'post', 'accept-charset': 'UTF-8'}
+  .form-group
+    %label.control-label{for: 'title'} タイトル
+    %input#title.form-control{get_value('title'), type: 'text', name: 'title', required: true}/
+  .form-group
+    %label.control-label{for: 'slug'} パーマリンク
+    %input#slug.form-control{get_value('slug'), type: 'text', name: 'slug', required: true}/
+  .form-group
+    %label.control-label{for: 'description'} スニペット
+    %input#description.form-control{get_value('description'), type: 'text', name: 'description', required: true}/
+  .form-group
+    %label.control-label{for: 'text'} 本文
+    %textarea#text.form-control{name: 'text', required: true, rows: 16}<
+      != Hamlit::Helpers.preserve(Hamlit::HamlHelpers.html_escape(params['text']))
+  .form-group
+    %label.control-label{for: 'format'} 本文の形式
+    %select#format.form-control{name: 'format', required: true}
+      %option
+      - formats.each do |k, v|
+        %option{value: k, selected: params['format'] == k} #{v}
+  .form-group
+    %label.control-label タグ
+    - Tag.ordered_all.each do |t|
+      .checkbox
+        %label{for: "tags-#{ t.slug }"}
+          %input{id: "tags-#{ t.slug }", type: 'checkbox', name: 'tags[]', value: "#{ t.slug }",
+            checked: params['tags']&.include?(t.slug)}
+          = t.name
+  .form-group
+    %label.control-label Assets
+    - {'footnote' => '脚注', 'syntaxhighlight' => 'シンタックスハイライト', 'single-css' => '個別CSS', 'single-js' => '個別JS'}.each do |k, v|
+      .checkbox
+        %label{for: "assets-#{ k }"}
+          %input{id: "assets-#{ k }", type: 'checkbox', name: 'assets[]', value: "#{ k }",
+            checked: params['assets']&.include?(k)}
+          = v
+  - if @html then
+    .form-group
+      %a#preview.form-control.btn.btn-info{target: '_blank'} プレビュー
+  - if @post then
+    .form-group
+      %a#rawpreview.form-control.btn.btn-info{target: '_blank'} Compiled Source
+  - if request.post? then
+    .form-group
+      %input.form-control.btn.btn-warning{type: 'submit', formaction: 'create', value: '投稿'}/
+  .form-group
+    %input.form-control.btn.btn-primary{type: 'submit', formaction: 'new', value: '確認'}/

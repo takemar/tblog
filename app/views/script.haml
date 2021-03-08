@@ -1,0 +1,10 @@
+- require 'json'
+:javascript
+  jQuery(function(){
+    $("#preview").attr("href", URL.createObjectURL(new Blob([JSON.parse($("#htmldata").text())], {type: "text/html; charset=UTF-8"})));
+    $("#rawpreview").attr("href", URL.createObjectURL(new Blob([JSON.parse($("#rawdata").text())], {type: "text/plain"})));
+  });
+%script#htmldata{type: 'application/json'}<
+  != JSON.generate(@html).gsub(/\<\/?script|\<\!--/, {'<script' => '\u003cscript', '</script' => '\u003c\u002fscript', '<!--' => '\u003c\u0021--'})
+%script#rawdata{type: 'application/json'}<
+  != JSON.generate(@compiled_source).gsub(/\<\/?script|\<\!--/, {'<script' => '\u003cscript', '</script' => '\u003c\u002fscript', '<!--' => '\u003c\u0021--'})

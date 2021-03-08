@@ -1,0 +1,10 @@
+%h2
+  アーカイブ：
+  %strong #{ year }年#{ month }月
+.hlinks
+  %a{href: url('posts/')} 一覧
+  - if prev
+    %a{href: url("posts/#{ prev.year }/#{ prev.month.to_s.rjust(2, '0') }/")} #{ prev.year }年#{ prev.month }月
+  - if succ
+    %a{href: url("posts/#{ succ.year }/#{ succ.month.to_s.rjust(2, '0') }/")} #{ succ.year }年#{ succ.month }月
+!= yield(posts).strip

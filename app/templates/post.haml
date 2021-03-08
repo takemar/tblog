@@ -1,0 +1,38 @@
+%article.content.twitter-share
+  %header
+    %h1 #{ title }
+    %time #{ created_at.strftime '%Y-%m-%d %H:%M:%S' }
+    .twitter-share-button-wrapper
+      %a.twitter-share-button{href: 'https://twitter.com/share',
+        target: '_blank',
+        data: {text: share_title, url: "#{ config.blog_scheme }://#{ config.blog_domain }/#{ path }", 'show-count': 'false'}} ツイート
+  != yield.strip
+  - if footnotes.any?
+    != footnotes.render.strip
+  %footer
+    %h2 前後の投稿とタグ
+    - if prev
+      %div<
+        古い投稿：
+        %a{href: url(prev.path)}>= prev.title
+    - if succ
+      %div<
+        新しい投稿：
+        %a{href: url(succ.path)}>= succ.title
+    - tags.each do |tag|
+      .tag
+        %div<
+          タグ：
+          %a{href: url(tag.path)}>= tag.name
+        - p = prev(tag)
+        - s = succ(tag)
+        - if p || s
+          .tag-links
+            - if p
+              %div<
+                古い投稿：
+                %a{href: url(p.path)}>= p.title
+            - if s
+              %div<
+                新しい投稿：
+                %a{href: url(s.path)}>= s.title

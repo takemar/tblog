@@ -1,0 +1,10 @@
+%h2 
+  %a{href: url(tag.path)} タグ：#{ tag.name }
+  の#{ year }年のアーカイブ
+- if prev || succ
+  .hlinks
+    - if prev
+      %a{href: url("tags/#{ tag.slug }/#{ prev }")} #{ prev }年
+    - if succ
+      %a{href: url("tags/#{ tag.slug }/#{ succ }")} #{ succ }年
+!= yield(posts).strip

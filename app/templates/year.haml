@@ -1,0 +1,27 @@
+.content
+  .content-header
+    %h2
+      アーカイブ：
+      %strong #{ year }年
+    .hlinks
+      %a{href: url('posts/')} 一覧
+      - if prev
+        %a{href: url("posts/#{ prev }/")} #{ prev }年
+      - if succ
+        %a{href: url("posts/#{ succ }/")} #{ succ }年
+  .links
+    - ((if year == Post.oldest.created_at.year then Post.oldest.created_at.month else 1 end)..(if year == Post.latest.created_at.year then Post.latest.created_at.month else 12 end)).each do |month|
+      - if months.any? {|item| item.month == month }
+        %a{href: url("posts/#{ year }/#{ month.to_s.rjust(2, '0') }/")} #{ month }月
+      - else
+        #{ month }月
+  .links
+    %div タグ
+    %ul.tag-links
+      - Tag.ordered_all.each do |tag|
+        - if archived_tags.include? tag.slug
+          %li
+            %a{href: url("tags/#{ tag.slug }/#{ year }")} #{ tag.name }
+        - else
+          %li
+            #{ tag.name }
